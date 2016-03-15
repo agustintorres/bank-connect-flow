@@ -1,0 +1,103 @@
+@font-face {
+    font-family: myGotham;
+    src: url(/images/fonts/Gotham-Book.otf);
+}
+
+body {
+ 	font-family: myGotham, Arial, sans-serif;
+}
+
+.logo {
+ 	margin: 15px 15px 0px 15px;
+}
+
+.center {
+    text-align: center;
+}
+
+.gray {
+	color: gray;
+}
+
+.bold {
+	font-weight: bold;
+}
+
+div.container {
+    margin: 50px 350px 50px 350px;
+}
+
+div.success_container {
+    margin: 50px 380px 50px 380px;
+    display: none;
+}
+
+table {
+    width: 600px;
+    height: 150px;
+}
+
+td {
+    height: 40px;
+    padding: 10px 40px 40px 10px;
+}
+
+.modal {
+  text-align: center;
+  padding: 0!important;
+}
+
+.modal:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+}
+
+.modal-dialog {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+}
+
+#login_modal_body {
+  margin-bottom: 140px;
+}
+
+#bank_info_modal_body {
+  margin-bottom: 140px;
+}
+
+.input_field {
+	margin-top: 10px;
+}
+
+#login_error_div {
+  display: none;
+  color: red;
+}
+
+#bank_info_error_div {
+  display: none;
+  color: red;
+}
+
+#login_spinner {
+  display: none;
+  position: absolute;
+  left: 0px;
+  width: 80px;
+}
+
+#bank_info_modal_content {
+	display: none;
+}
+
+#button_div {
+	text-align: center;
+	margin-top: 10px;
+}
+
+#bank_info_fields_div {
+	text-align: center;
+}
