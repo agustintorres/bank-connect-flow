@@ -1,25 +1,229 @@
 <html>
     <head>
         <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     </head>
     <body>
-        <h1>Hello World!</h1>
-        <p>Open up your javascript console to see a sample API response</p>
+        <img class="logo" src="/images/bond-street-logo.png" alt="Bond Street" style="width:300;height:50;">
+        <hr>
+
+        <!-- Container -->
+        <div class="container" id="main_div">
+        <h2>Connect Bond Street to your bank</h2>
+        <hr>
+        <p>Connecting us to your primary business bank account gives us a clearer <br> understanding of your finances.</p><br>
+
+        <table>
+          <tr>
+            <td><a href="#" data-toggle="modal" data-target="#login_modal"><img src="/images/icons/bank_icons/chase-logo-transparent.png" style="height:80%;"></a></td>
+            <td><a href="#" data-toggle="modal" data-target="#login_modal"><img src="/images/icons/bank_icons/boa-logo-transparent.png" style="height:50%;"></a></td>
+            <td><a href="#" data-toggle="modal" data-target="#login_modal"><img src="/images/icons/bank_icons/citibank-logo-transparent.png" style="height:80%;"></a></td>
+          </tr>
+          <tr>
+            <td><a href="#" data-toggle="modal" data-target="#login_modal"><img src="/images/icons/bank_icons/wells-fargo-logo.png" style="height:80%;"></a></td>
+            <td><a href="#" data-toggle="modal" data-target="#login_modal"><img src="/images/icons/bank_icons/USBankLogo-transparent.png" style="height:80%;"></a></td>
+            <td><a href="#" data-toggle="modal" data-target="#login_modal"><img src="/images/icons/bank_icons/pnc-logo-transparent.png" style="height:80%;"></a></td>
+          </tr>
+          <tr>
+            <td><a href="#" data-toggle="modal" data-target="#login_modal"><img src="/images/icons/bank_icons/capitalone-logo-transparent.png" style="height:80%;"></a></td>
+            <td><a href="#" data-toggle="modal" data-target="#login_modal"><img src="/images/icons/bank_icons/tdbank-logo-transparent.png" style="height:80%;"></a></td>
+            <td><a href="#" data-toggle="modal" data-target="#login_modal"><img src="/images/icons/bank_icons/hsbc-logo-transparent.png" style="height:60%;"></a></td>
+          </tr> 
+        </table>
+        </div>
+        <!-- End Container -->
+
+        <!-- Success Container -->
+        <div class="success_container" id="success_div">
+        <h2 class="center">Connect Bond Street to your bank</h2>
+        <hr>
+        <p class="center"><img src="/images/icons/icon_bank_connected.png" align="center" style="height:20%;"></p>
+        <p class="center"><b>You've successfully connected your Bank</b></p><br>
+        <p class="center gray">When you are approved for your loan, Bond street will use your bank for <br> payments. You can change this later once you are approved.</p>
+        </div>
+        <!-- End Success -->
+
+
+        <!-- Modal -->
+        <div id="login_modal" class="modal fade" role="dialog">
+        <div class="modal-dialog">  
+        <!-- Login modal content-->
+        <div class="modal-content" id="login_modal_content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"><b>Log in to your bank account</b></h4>
+            </div>
+             <div class="modal-body" id="login_modal_body">
+                <p>Enter your bank credentials to link your account.</p>
+                <form role="form" id="login_form">
+                    <div class="form-group" id="login_error_div">
+                    </div>
+                    <div class="form-group col-lg-7 col-lg-offset-2" id="login_fields_div">
+                    </div>
+                    <div class="form-group center col-lg-7 col-lg-offset-2 button_div" id="login_button_div">
+                    <button id="login_submit" type="submit" class="btn btn-default btn-primary btn-block">
+                        <span id="login_spinner">
+                            <img src="/images/icons/bst_loader.gif" style="height:25px;">
+                        </span>
+                        <span class="bold" id="button_text">CONTINUE</span>
+                    </button>
+                    </div>
+                </form>
+
+            </div>
+            
+        </div>
+
+        <!-- Bank routing information modal content-->
+        <div class="modal-content" id="bank_info_modal_content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"><b>Enter your routing and account numbers</b></h4>
+            </div>
+             <div class="modal-body" id="bank_info_modal_body">
+                <p>Enter your credentials to link your account.</p>
+                <form role="form" id="bank_info_form">
+                    <div class="form-group" id="bank_info_error_div">
+                    </div>
+                    <div class="form-group col-lg-7 col-lg-offset-2" id="bank_info_fields_div">
+                        <input type="text" class="form-control input_field" id="routing_number" placeholder="Routing Number" >
+                        <input type="text" class="form-control input_field" id="account_number" placeholder="Account Number">
+                    </div>
+                    <div class="form-group center col-lg-7 col-lg-offset-2 button_div" id="bank_info_button_div">
+                    <button id="bank_info_submit" type="submit" class="btn btn-default btn-primary btn-block">
+                        <span class="bold" id="bank_info_button_text">CONTINUE</span>
+                    </button>
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+
+        </div>
+        </div>
+        <!-- End Modal -->
+
+
+
         <script>
-            $(document).ready(function(){
+            // login form submit handler
+            $('#login_submit').click(function(e){
+                e.preventDefault();
+                var button = $(this);
+                toggleButtonState(button);
+                
+                // try to log in using given credentials
+                var user_id = $('#user_id').val();
+                var password = $('#password').val();
                 $.ajax({
                     url: "/bank_login_creds",
                     method: "POST",
                     data: {
-                        user_id: "bondstreet",
-                        password: "go"
+                        user_id: user_id,
+                        password: password
                     },
                     dataType: "json",
                     success: function(data) {
                        console.log(data);
+                       console.log("There was no error"); 
+                       $('#login_error_div').hide('fast');
+                       // transition modal here  
+                       $('#login_modal_content').hide();
+                       $('#bank_info_modal_content').show();
+                       $('#routing_number').val('');
+                       $('#account_number').val('');
+                    },
+                    error: function(xhr) {
+                        var err = eval("(" + xhr.responseText + ")");
+                        var errorMessage = err.error;
+                        console.log("There was an error");
+                        toggleButtonState(button);
+                        $('#login_error_div').text(errorMessage).show();
                     }
                 });
+            });
+
+            // bank info submit handler
+            $('#bank_info_submit').click(function(e){
+                e.preventDefault();
+                var routingNumber = $('#routing_number').val();
+                var accountNumber = $('#account_number').val();
+                if (!validateRoutingNumber(routingNumber)) {
+                    $('#bank_info_error_div').text("Routing number is not valid").show();
+                } else {
+                    $.ajax({
+                        url: "/bank_details",
+                        method: "POST",
+                        data: {
+                            routing_number: routingNumber,
+                            account_number: accountNumber
+                        },
+                        dataType: "json",
+                        success: function(data) {
+                            console.log(data);
+                            $('#login_modal').modal('hide');
+                            $('#main_div').hide();
+                            $('#success_div').show();
+                        }
+                    });
+                }
+            });
+
+            $(document).ready(function(){
+                $.ajax({
+                    url: "/bank_login_fields?institution_id=123",
+                    method: "GET",
+                    dataType: "json",
+                    success: function(data) {
+                       $.each(data.login_fields, function(k, v) {
+                           var type = "text";
+                           if (v.mask)
+                               type = "password";
+                           $("<input>").attr({
+                               type: type,
+                               class: 'form-control input_field',
+                               id: v.name,
+                               placeholder: v.placeholder
+                           }).appendTo("#login_fields_div");
+                       });
+                    }
+                });
+
+
              });
+
+            function toggleButtonState(button) {
+                button.toggleClass('disabled');
+                button.toggleClass('btn-primary');
+                button.toggleClass('active');
+                if(button.hasClass('disabled')){
+                    $('#button_text').text('LOGGING IN...');
+                    $('#login_spinner').show();
+                } else {
+                    $('#button_text').text('CONTINUE');
+                    $('#login_spinner').hide();
+                }
+            }
+
+            function validateRoutingNumber(number) {
+                var numberStr = String(number);
+                if (numberStr.length < 9)
+                    return false;
+                var d1 = Number(numberStr.charAt(0));
+                var d2 = Number(numberStr.charAt(1));
+                var d3 = Number(numberStr.charAt(2));
+                var d4 = Number(numberStr.charAt(3));
+                var d5 = Number(numberStr.charAt(4));
+                var d6 = Number(numberStr.charAt(5));
+                var d7 = Number(numberStr.charAt(6));
+                var d8 = Number(numberStr.charAt(7));
+                var d9 = Number(numberStr.charAt(8));
+                var result = (3*(d1 + d4 + d7) + 7*(d2 + d5 + d8) + (d3 + d6 + d9)) % 10;
+                return (result === 0);
+            }
         </script>
     </body>
 </html>

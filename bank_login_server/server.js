@@ -8,7 +8,7 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.get('/', function (req, res) {
-  res.send('Hello World!');
+    res.send('Hello World!');
 });
 
 var server = app.listen(3000, function () {
@@ -52,4 +52,12 @@ app.post('/bank_login_creds', function (req, res) {
     } else {
         res.status(401).send({ 'error': 'User ID/Password combination does not exist' });
     }
+});
+
+app.post('/bank_details', function (req, res) {
+    if (!req.body.routing_number || !req.body.account_number) {
+        res.status(400).send('routing_number and account_number params are required');
+    }
+
+    res.send({ 'error': false });
 });
